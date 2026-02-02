@@ -1,0 +1,25 @@
+site_name: Vindicta CLI
+site_description: Unified command-line interface for Vindicta
+site_url: https://vindicta-platform.github.io/Vindicta-CLI/
+
+repo_name: vindicta-platform/Vindicta-CLI
+repo_url: https://github.com/vindicta-platform/Vindicta-CLI
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: amber
+  font:
+    text: Outfit
+    code: JetBrains Mono
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Commands: commands.md
+  - Contributing: contributing.md
+
+plugins:
+  - search
