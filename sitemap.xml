@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://vindicta-platform.github.io/Vindicta-CLI/</loc>
+         <lastmod>2026-02-02</lastmod>
+    </url>
+    <url>
+         <loc>https://vindicta-platform.github.io/Vindicta-CLI/SETUP/</loc>
+         <lastmod>2026-02-02</lastmod>
+    </url>
+    <url>
+         <loc>https://vindicta-platform.github.io/Vindicta-CLI/commands/</loc>
+         <lastmod>2026-02-02</lastmod>
+    </url>
+    <url>
+         <loc>https://vindicta-platform.github.io/Vindicta-CLI/contributing/</loc>
+         <lastmod>2026-02-02</lastmod>
+    </url>
+    <url>
+         <loc>https://vindicta-platform.github.io/Vindicta-CLI/installation/</loc>
+         <lastmod>2026-02-02</lastmod>
+    </url>
+    <url>
+         <loc>https://vindicta-platform.github.io/Vindicta-CLI/adr/000-template/</loc>
+         <lastmod>2026-02-02</lastmod>
+    </url>
+    <url>
+         <loc>https://vindicta-platform.github.io/Vindicta-CLI/adr/001-python-language/</loc>
+         <lastmod>2026-02-02</lastmod>
+    </url>
+    <url>
+         <loc>https://vindicta-platform.github.io/Vindicta-CLI/adr/002-precommit-required/</loc>
+         <lastmod>2026-02-02</lastmod>
+    </url>
+</urlset>
