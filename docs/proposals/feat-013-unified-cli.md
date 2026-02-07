@@ -1,10 +1,10 @@
 # Feature Proposal: Unified CLI Experience
 
-**Proposal ID**: FEAT-013  
-**Author**: Unified Product Architect (Autonomous)  
-**Created**: 2026-02-01  
-**Status**: Draft  
-**Priority**: High  
+**Proposal ID**: FEAT-013
+**Author**: Unified Product Architect (Autonomous)
+**Created**: 2026-02-01
+**Status**: Draft
+**Priority**: High
 
 ---
 
@@ -87,7 +87,7 @@ class CLIPlugin:
     """Base class for CLI plugins."""
     name: str
     app: Typer
-    
+
     def register(self, parent: Typer):
         parent.add_typer(self.app, name=self.name)
 
@@ -126,18 +126,18 @@ verbose = false
 ### User Stories
 
 #### US-001: Unified Commands
-**As a** power user  
-**I want** one CLI for all Vindicta tools  
+**As a** power user
+**I want** one CLI for all Vindicta tools
 **So that** I don't need to remember multiple command names
 
 #### US-002: Consistent Output
-**As a** script author  
-**I want** JSON output option for all commands  
+**As a** script author
+**I want** JSON output option for all commands
 **So that** I can parse results programmatically
 
 #### US-003: Plugin Extensibility
-**As a** developer  
-**I want to** create custom CLI plugins  
+**As a** developer
+**I want to** create custom CLI plugins
 **So that** I can extend the platform for my needs
 
 ### Acceptance Criteria
