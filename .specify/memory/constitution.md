@@ -1,50 +1,144 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+&lt;!--
+Sync Impact Report:
+- Version change: [TEMPLATE] → 1.0.0
+- Modified principles: All principles populated from template
+- Added sections: Technical Context, Development Workflow
+- Removed sections: None
+- Templates requiring updates:
+  ✅ plan-template.md - Constitution Check section aligns with principles
+  ✅ spec-template.md - Requirements and user stories align with SDD workflow
+  ✅ tasks-template.md - Task categorization reflects principle-driven task types
+- Follow-up TODOs: None - all placeholders filled
+--&gt;
+
+# Vindicta-CLI Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Library-First Architecture
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Every feature MUST start as a standalone library before CLI integration. Libraries MUST be:
+- Self-contained with clear boundaries
+- Independently testable without CLI dependencies
+- Fully documented with API contracts
+- Purpose-driven (no organizational-only libraries)
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+**Rationale**: Library-first design ensures reusability across the platform, enables independent testing, and prevents tight coupling between CLI commands and business logic.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. CLI Interface Contract
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+Every library MUST expose functionality via a Typer-based CLI command. CLI commands MUST follow:
+- Text I/O protocol: stdin/args → stdout, errors → stderr
+- Support both JSON and human-readable output formats
+- Provide `--help` documentation for all commands
+- Follow the `vindicta [domain] [action]` naming convention
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**Rationale**: Consistent CLI interfaces ensure predictable behavior, enable scripting and automation, and maintain compatibility with platform workflows.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### III. Test-First Development (NON-NEGOTIABLE)
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Test-Driven Development (TDD) is MANDATORY for all implementations:
+- Tests MUST be written before implementation
+- Tests MUST be reviewed and approved by user before implementation begins
+- Tests MUST fail initially (Red phase)
+- Implementation proceeds only after failing tests are confirmed (Green phase)
+- Refactoring follows successful implementation (Refactor phase)
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Rationale**: TDD ensures code correctness, prevents regression, and serves as living documentation. The Red-Green-Refactor cycle is non-negotiable to maintain code quality and reliability.
+
+### IV. Integration Testing
+
+Integration tests are REQUIRED for the following scenarios:
+- New library contract tests (verify library API contracts)
+- Contract changes (ensure backward compatibility or explicit breaking changes)
+- Inter-service communication (validate service boundaries)
+- Shared schema validation (ensure data contract integrity)
+
+**Rationale**: Integration tests verify that components work together correctly and prevent breaking changes from propagating across the platform.
+
+### V. Observability
+
+All CLI commands and libraries MUST implement structured observability:
+- Text I/O ensures debuggability (human-readable logs)
+- Structured logging REQUIRED for all operations (JSON format for machine parsing)
+- Error messages MUST include actionable context
+- Performance metrics MUST be logged for long-running operations
+
+**Rationale**: Observability enables rapid debugging, performance monitoring, and operational insights without requiring code changes.
+
+### VI. Versioning &amp; Breaking Changes
+
+All libraries and CLI commands MUST follow semantic versioning (MAJOR.MINOR.PATCH):
+- MAJOR: Breaking changes (incompatible API changes)
+- MINOR: New features (backward-compatible additions)
+- PATCH: Bug fixes (backward-compatible fixes)
+
+Breaking changes MUST include:
+- Migration guide in CHANGELOG.md
+- Deprecation warnings in prior MINOR version
+- User notification before MAJOR version release
+
+**Rationale**: Semantic versioning provides clear expectations for users and enables safe upgrades without unexpected breakage.
+
+### VII. Simplicity &amp; YAGNI
+
+Start simple and add complexity only when justified:
+- Implement the simplest solution that meets requirements
+- YAGNI (You Aren't Gonna Need It) principles apply
+- Complexity MUST be justified in implementation plan
+- Prefer composition over inheritance
+- Avoid premature optimization
+
+**Rationale**: Simple code is easier to understand, test, and maintain. Complexity should be added incrementally based on actual needs, not anticipated future requirements.
+
+## Technical Context
+
+**Language/Version**: Python 3.11+
+**Primary Framework**: Typer (CLI), uv (package management), ruff (linting)
+**Testing**: pytest with contract and integration test support
+**Target Platform**: Cross-platform (Windows, macOS, Linux)
+**Project Type**: Single project (CLI tool)
+**Performance Goals**: &lt;100ms response time for simple commands, &lt;5s for complex operations
+**Constraints**: Must integrate with existing Vindicta Platform services and respect MCP-First Mandate
+**Scale/Scope**: 20+ domain commands, 100+ total CLI commands across all domains
+
+## Development Workflow
+
+The Vindicta-CLI follows the Spec-Driven Development (SDD) lifecycle:
+
+1. **Specify**: Create tech-agnostic user stories and acceptance criteria in `spec.md`
+2. **Clarify**: Three-cycle clarification (Ambiguity, Component Impact, Failure Mode)
+3. **Plan**: Document technical architecture, file changes, and risk assessment in `plan.md`
+4. **Tasks**: Generate dependency-ordered task list (MODELS → SERVICES → ENDPOINTS) in `tasks.md`
+5. **Implement**: Execute atomic TDD commits following Red-Green-Refactor cycle
+6. **Verify**: Complete verification checklist with evidence and testing results
+
+All SDD bundles MUST reside in `.specify/specs/[ID]-[name]/` and be approved before implementation.
+
+## Quality Gates
+
+All code MUST pass the following quality gates before merge:
+
+1. **Linting &amp; Formatting**: All commits MUST pass `ruff check` and `ruff format` pre-commit hooks
+2. **Test Coverage**: Critical paths MUST have unit or integration tests (&gt;80% coverage)
+3. **Link Integrity**: Documentation MUST pass markdown link validation
+4. **Constitution Compliance**: All implementations MUST align with these principles
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other development practices for Vindicta-CLI.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Amendment Process**:
+- Amendments REQUIRE documentation of rationale and impact analysis
+- Amendments REQUIRE user approval before adoption
+- Amendments REQUIRE migration plan for existing code
+- Version MUST be incremented according to semantic versioning rules
+
+**Compliance Review**:
+- All PRs MUST verify constitution compliance
+- Complexity MUST be justified in implementation plan
+- Violations MUST be documented with rationale for exception
+
+**Runtime Guidance**: Developers should reference `.specify/templates/` for SDD workflow execution and `.antigravity/` for agent-specific development guidance.
+
+**Version**: 1.0.0 | **Ratified**: 2026-02-07 | **Last Amended**: 2026-02-07

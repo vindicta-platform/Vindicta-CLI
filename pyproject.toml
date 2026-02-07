@@ -4,14 +4,16 @@ build-backend = "hatchling.build"
 
 [project]
 name = "vindicta-cli"
-version = "0.1.0"
+version = "0.2.0"
 description = "Unified command-line interface for Vindicta"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
 dependencies = [
-    "typer[all]>=0.12",
+    "typer>=0.12",
     "rich>=13.0",
+    "pyyaml>=6.0",
+    "tenacity>=8.0",
 ]
 
 [project.scripts]
@@ -20,8 +22,13 @@ vindicta = "vindicta_cli.main:app"
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "pytest-mock>=3.12",
+    "pytest-asyncio>=0.23",
     "ruff>=0.4",
+    "mypy>=1.10",
     "pre-commit>=3.7",
+    "pyadr>=0.19",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -30,3 +37,13 @@ packages = ["src/vindicta_cli"]
 [tool.ruff]
 line-length = 88
 target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+markers = [
+    "wip: marks tests as work-in-progress (deselected by default, caught by pre-commit)",
+]

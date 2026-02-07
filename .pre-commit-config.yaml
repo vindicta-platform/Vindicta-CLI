@@ -1,13 +1,48 @@
+# Vindicta-CLI Pre-Commit Configuration
+# - On commit: formatting, linting, file hygiene, WIP test detection
+# - On push:   full pytest suite (unit + integration + contract)
+
 repos:
+  # ── Ruff: lint + format ──────────────────────────────────────────────
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.0
+    rev: v0.9.7
     hooks:
       - id: ruff
         args: [--fix]
       - id: ruff-format
+
+  # ── File hygiene & safety ────────────────────────────────────────────
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: debug-statements
+      - id: detect-private-key
+
+  # ── Local hooks ──────────────────────────────────────────────────────
+  - repo: local
+    hooks:
+      # Commit-stage: catch WIP-marked tests before they land
+      - id: pytest-wip
+        name: "detect WIP tests"
+        entry: uv run python scripts/check_wip_tests.py
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+        always_run: true
+        verbose: true
+
+      # Push-stage: full test suite must pass before push
+      - id: pytest-full
+        name: "run full test suite"
+        entry: uv run pytest --tb=short -q
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+        always_run: true
+        verbose: true
