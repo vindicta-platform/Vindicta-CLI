@@ -1,7 +1,7 @@
 # Specification Quality Checklist: Developer Commands for Platform Management
 
-**Purpose**: Validate specification completeness and quality before proceeding to planning  
-**Created**: 2026-02-07  
+**Purpose**: Validate specification completeness and quality before proceeding to planning
+**Created**: 2026-02-07
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality

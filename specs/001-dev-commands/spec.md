@@ -1,9 +1,19 @@
 # Feature Specification: Developer Commands for Platform Management
 
-**Feature Branch**: `001-dev-commands`  
-**Created**: 2026-02-07  
-**Status**: Draft  
+**Feature Branch**: `001-dev-commands`
+**Created**: 2026-02-07
+**Status**: Draft
 **Input**: User description: "Developer commands for Vindicta Platform workspace management including init, sync, setup, status, validate, doctor, clean, and config operations"
+
+## Clarifications
+
+### Session 2026-02-07
+
+- Q: What level of observability and logging should the CLI commands implement? → A: Structured logging - JSON logs to `.vindicta/logs/` directory + human-readable console output
+- Q: How should the CLI handle GitHub authentication and credential management? → A: Delegate to `gh` CLI - Require `gh auth login` before running commands, use `gh` for all GitHub operations
+- Q: How should the CLI handle the boundary between MCP server operations and direct CLI operations? → A: MCP-first CLI - CLI always uses MCP filesystem server for file operations when available
+- Q: What retry strategy should be used for network failures? → A: Exponential backoff - 3 attempts with delays: 1s, 2s, 4s (total ~7s max wait)
+- Q: What level of progress feedback should long-running operations provide? → A: Rich progress (spinners, progress bars, current operation name, ETA estimates) as default, with `--verbose` flag for real-time streaming output of every executed command
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -147,25 +157,25 @@ A developer needs to customize workspace behavior (parallel sync operations, aut
 
 - What happens when a repository clone fails due to network issues during initialization?
   - System should continue with remaining repositories, report failures at end, and provide retry command for failed repos
-  
+
 - How does system handle repositories with uncommitted changes during sync?
   - System skips pulling for dirty repositories, displays warning, and provides status of uncommitted files
-  
+
 - What happens when workspace configuration file is missing or corrupted?
   - System attempts to reconstruct configuration from discovered repositories, warns user, and offers to regenerate configuration
-  
+
 - How does system behave when GitHub CLI is not installed or not authenticated?
   - System detects missing `gh` command, reports error with installation instructions, and falls back to git-only operations where possible
-  
+
 - What happens when pre-commit hooks fail during validation?
   - System reports specific hook failures with error messages, provides remediation guidance, and exits with non-zero code
-  
+
 - How does system handle repositories on non-default branches during sync?
   - System reports current branch for each repository, warns if not on default branch, and skips auto-pull unless explicitly forced
-  
+
 - What happens when tier filtering produces empty repository list?
   - System reports no repositories match criteria, displays available tiers, and exits without making changes
-  
+
 - How does system handle parallel operations when one repository hangs?
   - System implements timeout for parallel operations, reports hung repositories, and continues with remaining repos
 
@@ -194,10 +204,19 @@ A developer needs to customize workspace behavior (parallel sync operations, aut
 - **FR-019**: System MUST persist configuration settings in workspace configuration file
 - **FR-020**: System MUST support both workspace-local and global configuration scopes
 - **FR-021**: System MUST use GitHub CLI (`gh`) internally for repository cloning and PR/CI status queries
-- **FR-022**: System MUST NOT duplicate MCP server functionality (file system operations, GitHub API calls)
+- **FR-022**: System MUST use MCP filesystem server for file operations when available, falling back to direct operations only when MCP is unavailable
 - **FR-023**: System MUST exit with non-zero code when validation failures or critical errors occur
 - **FR-024**: System MUST support JSON output format for programmatic consumption of status and diagnostic data
-- **FR-025**: System MUST handle network failures gracefully and provide retry mechanisms for failed operations
+- **FR-025**: System MUST handle network failures gracefully with exponential backoff retry (3 attempts: 1s, 2s, 4s delays)
+- **FR-026**: System MUST write structured JSON logs to `.vindicta/logs/` directory for all operations
+- **FR-027**: System MUST include timestamps, command name, arguments, execution duration, and outcome in log entries
+- **FR-028**: System MUST display rich progress indicators (spinners, progress bars, current operation name, ETA estimates) as default for long-running operations
+- **FR-029**: System MUST implement log rotation to prevent unbounded disk usage (retain last 30 days or 100MB)
+- **FR-030**: System MUST require `gh` CLI authentication (`gh auth status` succeeds) before executing GitHub operations
+- **FR-031**: System MUST use `gh` CLI for all GitHub operations (cloning, PR queries, CI status) rather than implementing separate authentication
+- **FR-032**: System MUST detect MCP filesystem server availability at startup and gracefully fall back to direct file operations if unavailable
+- **FR-033**: System MUST log each retry attempt with attempt number, delay duration, and failure reason
+- **FR-034**: System MUST support `--verbose` flag to stream real-time output of every executed command (git clone, npm install, etc.) instead of progress indicators
 
 ### Key Entities
 
