@@ -7,3 +7,6 @@ dist/
 build/
 .pytest_cache/
 .coverage
+.vindicta/
+*.log
+.ruff_cache/
