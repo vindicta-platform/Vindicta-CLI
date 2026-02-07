@@ -1,31 +1,50 @@
-# Vindicta Platform Constitution
+# [PROJECT_NAME] Constitution
+<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
 
 ## Core Principles
 
-### I. MCP-First Mandate
-Always check for available MCP servers (GitHub, CloudRun, Firebase) before using CLI tools or manual scripts. For all GitHub, GCP, or Firebase operations, utilize the corresponding MCP tools. Manual CLI usage is a fallback only when MCP capabilities are exhausted.
+### [PRINCIPLE_1_NAME]
+<!-- Example: I. Library-First -->
+[PRINCIPLE_1_DESCRIPTION]
+<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
 
-### II. Spec-Driven Development (SDD)
-Every feature implementation MUST start with an SDD bundle in `.specify/specs/[ID]-[name]/`. This bundle must include `spec.md`, `plan.md`, and `tasks.md`. Implementation cannot proceed until the SDD bundle is approved and merged into the main branch.
+### [PRINCIPLE_2_NAME]
+<!-- Example: II. CLI Interface -->
+[PRINCIPLE_2_DESCRIPTION]
+<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
 
-### III. Economic Prime Directive
-All platform architecture and implementation must strictly comply with the GCP Free Tier. Scaling beyond free tier limits requires an explicit architectural review and justification.
+### [PRINCIPLE_3_NAME]
+<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
+[PRINCIPLE_3_DESCRIPTION]
+<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
 
-### IV. Zero-Issue Stability
-System stability and technical debt resolution take precedence over new feature development. When the "Repo-Guard" audit reveals high issue density or critical debt, the org shifts into a stabilization phase to maintain a "Zero-Issue State."
+### [PRINCIPLE_4_NAME]
+<!-- Example: IV. Integration Testing -->
+[PRINCIPLE_4_DESCRIPTION]
+<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
 
-### V. Vanilla-Forward & Modern Tooling
-Favor vanilla JavaScript (ES2020+) and modern build systems (Vite 7+) over heavy frameworks. Maintain compatibility with Firebase SDK v10+ and leverage GitHub Actions for all CI/CD pipelines.
+### [PRINCIPLE_5_NAME]
+<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
+[PRINCIPLE_5_DESCRIPTION]
+<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
 
-## Quality Gates
+## [SECTION_2_NAME]
+<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
 
-1. **Linting & Formatting**: All commits must pass pre-commit hooks and linting checks.
-2. **Test Coverage**: Critical paths must have associated unit or integration tests.
-3. **Link Integrity**: Documentation must pass markdown link validation.
-4. **Agent Context**: Every repository must contain up-to-date `.antigravity/` context artifacts (`ARCHITECTURE.md`, `CONSTRAINTS.md`).
+[SECTION_2_CONTENT]
+<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+
+## [SECTION_3_NAME]
+<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+
+[SECTION_3_CONTENT]
+<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
 
 ## Governance
-This constitution supersedes all individual repository practices. Amendments require approval from the Platform Lead and must be documented in this file.
+<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-**Version**: 1.0.0 | **Ratified**: 2026-02-06 | **Last Amended**: 2026-02-06
+[GOVERNANCE_RULES]
+<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+
+**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
 <!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
