@@ -1,15 +1,17 @@
-&lt;!--
+<!--
 Sync Impact Report:
-- Version change: [TEMPLATE] → 1.0.0
-- Modified principles: All principles populated from template
-- Added sections: Technical Context, Development Workflow
+- Version change: 1.0.0 → 1.1.0
+- Modified principles:
+  - Technical Context: Python 3.11+ → Python 3.10+ (aligns with pyproject.toml)
+- Added sections:
+  - Principle VIII: Commit Discipline (atomic commits after Red/Green cycles)
 - Removed sections: None
 - Templates requiring updates:
-  ✅ plan-template.md - Constitution Check section aligns with principles
-  ✅ spec-template.md - Requirements and user stories align with SDD workflow
-  ✅ tasks-template.md - Task categorization reflects principle-driven task types
-- Follow-up TODOs: None - all placeholders filled
---&gt;
+  ✅ plan-template.md - No changes needed (Constitution Check still valid)
+  ✅ spec-template.md - No changes needed
+  ✅ tasks-template.md - "Commit after each task" note already present (line 477)
+- Follow-up TODOs: None
+-->
 
 # Vindicta-CLI Constitution
 
@@ -91,9 +93,20 @@ Start simple and add complexity only when justified:
 
 **Rationale**: Simple code is easier to understand, test, and maintain. Complexity should be added incrementally based on actual needs, not anticipated future requirements.
 
+### VIII. Commit Discipline
+
+All development MUST follow atomic commit practices:
+- Commit after each Red/Green cycle (failing test → passing implementation)
+- Commit after each Refactor phase
+- Each commit MUST be self-contained and independently revertible
+- Commit messages MUST follow Conventional Commits format (`type(scope): description`)
+- Never bundle unrelated changes in a single commit
+
+**Rationale**: Atomic commits create a clear, auditable history that supports bisecting, code review, and safe rollbacks. Coupling commits to TDD cycles ensures every commit represents a verified state.
+
 ## Technical Context
 
-**Language/Version**: Python 3.11+
+**Language/Version**: Python 3.10+
 **Primary Framework**: Typer (CLI), uv (package management), ruff (linting)
 **Testing**: pytest with contract and integration test support
 **Target Platform**: Cross-platform (Windows, macOS, Linux)
@@ -141,4 +154,4 @@ This constitution supersedes all other development practices for Vindicta-CLI.
 
 **Runtime Guidance**: Developers should reference `.specify/templates/` for SDD workflow execution and `.antigravity/` for agent-specific development guidance.
 
-**Version**: 1.0.0 | **Ratified**: 2026-02-07 | **Last Amended**: 2026-02-07
+**Version**: 1.1.0 | **Ratified**: 2026-02-07 | **Last Amended**: 2026-02-07
