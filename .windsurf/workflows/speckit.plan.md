@@ -1,6 +1,6 @@
 ---
 description: Execute the implementation planning workflow using the plan template to generate design artifacts.
-handoffs: 
+handoffs:
   - label: Create Tasks
     agent: speckit.tasks
     prompt: Break the plan into tasks
@@ -87,3 +87,9 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 - Use absolute paths
 - ERROR on gate failures or unresolved clarifications
+- The Constitution Check section MUST verify compliance with all
+  principles, including Principle 6 (Commit Discipline). Plans MUST
+  account for atomic commits and Red-Green-Refactor commit cadence
+  in their phase structure.
+- Pre-commit hooks (`pre-commit run --all-files`) MUST be referenced
+  as a prerequisite in the plan's quality gates.

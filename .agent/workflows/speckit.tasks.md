@@ -1,6 +1,6 @@
 ---
 description: Generate an actionable, dependency-ordered tasks.md for the feature based on available design artifacts.
-handoffs: 
+handoffs:
   - label: Analyze For Consistency
     agent: speckit.analyze
     prompt: Run a project analysis for consistency
@@ -23,7 +23,8 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 1. **Setup**: Run `.specify/scripts/powershell/check-prerequisites.ps1 -Json` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
 
-2. **Load design documents**: Read from FEATURE_DIR:
+2. **Load design documents and constitution**: Read from FEATURE_DIR:
+   - **Required**: `.specify/memory/constitution.md` (governing principles — especially Principle 6: Commit Discipline)
    - **Required**: plan.md (tech stack, libraries, structure), spec.md (user stories with priorities)
    - **Optional**: data-model.md (entities), contracts/ (API endpoints), research.md (decisions), quickstart.md (test scenarios)
    - Note: Not all projects have all documents. Generate tasks based on what's available.
@@ -62,7 +63,9 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 Context for task generation: $ARGUMENTS
 
-The tasks.md should be immediately executable - each task must be specific enough that an LLM can complete it without additional context.
+The tasks.md should be immediately executable — each task must be specific enough that an LLM can complete it without additional context.
+
+**Commit Discipline**: Every generated task represents an atomic unit of work that MUST be committed upon completion. When TDD is used, each Red-Green-Refactor cycle produces two commits (see Constitution Principle 6). Task descriptions SHOULD note when `pre-commit run --all-files` must be executed.
 
 ## Task Generation Rules
 
@@ -86,7 +89,7 @@ Every task MUST strictly follow this format:
 4. **[Story] label**: REQUIRED for user story phase tasks only
    - Format: [US1], [US2], [US3], etc. (maps to user stories from spec.md)
    - Setup phase: NO story label
-   - Foundational phase: NO story label  
+   - Foundational phase: NO story label
    - User Story phases: MUST have story label
    - Polish phase: NO story label
 5. **Description**: Clear action with exact file path
@@ -129,9 +132,21 @@ Every task MUST strictly follow this format:
 
 ### Phase Structure
 
-- **Phase 1**: Setup (project initialization)
-- **Phase 2**: Foundational (blocking prerequisites - MUST complete before user stories)
+- **Phase 1**: Setup (project initialization) — commit after setup is complete
+- **Phase 2**: Foundational (blocking prerequisites - MUST complete before user stories) — commit after each foundational task
 - **Phase 3+**: User Stories in priority order (P1, P2, P3...)
   - Within each story: Tests (if requested) → Models → Services → Endpoints → Integration
   - Each phase should be a complete, independently testable increment
-- **Final Phase**: Polish & Cross-Cutting Concerns
+  - **Commit cadence**: Each task = one atomic commit. TDD tasks = two commits (Red→Green, then Refactor)
+- **Final Phase**: Polish & Cross-Cutting Concerns — commit after each polish task
+
+### Commit Checkpoint Tasks
+
+At the end of each phase, include a verification task:
+
+```text
+- [ ] TXXX Verify pre-commit hooks pass: `pre-commit run --all-files`
+- [ ] TXXX Verify git log reflects atomic commits for this phase
+```
+
+These ensure Constitution Principle 6 compliance is maintained throughout implementation.

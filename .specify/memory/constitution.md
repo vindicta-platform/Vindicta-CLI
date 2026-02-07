@@ -93,13 +93,13 @@ Start simple and add complexity only when justified:
 
 ## Technical Context
 
-**Language/Version**: Python 3.11+  
-**Primary Framework**: Typer (CLI), uv (package management), ruff (linting)  
-**Testing**: pytest with contract and integration test support  
-**Target Platform**: Cross-platform (Windows, macOS, Linux)  
-**Project Type**: Single project (CLI tool)  
-**Performance Goals**: &lt;100ms response time for simple commands, &lt;5s for complex operations  
-**Constraints**: Must integrate with existing Vindicta Platform services and respect MCP-First Mandate  
+**Language/Version**: Python 3.11+
+**Primary Framework**: Typer (CLI), uv (package management), ruff (linting)
+**Testing**: pytest with contract and integration test support
+**Target Platform**: Cross-platform (Windows, macOS, Linux)
+**Project Type**: Single project (CLI tool)
+**Performance Goals**: &lt;100ms response time for simple commands, &lt;5s for complex operations
+**Constraints**: Must integrate with existing Vindicta Platform services and respect MCP-First Mandate
 **Scale/Scope**: 20+ domain commands, 100+ total CLI commands across all domains
 
 ## Development Workflow
@@ -126,7 +126,7 @@ All code MUST pass the following quality gates before merge:
 
 ## Governance
 
-This constitution supersedes all other development practices for Vindicta-CLI. 
+This constitution supersedes all other development practices for Vindicta-CLI.
 
 **Amendment Process**:
 - Amendments REQUIRE documentation of rationale and impact analysis

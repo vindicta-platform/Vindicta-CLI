@@ -23,11 +23,11 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Create a status table:
 
      ```text
-     | Checklist | Total | Completed | Incomplete | Status |
-     |-----------|-------|-----------|------------|--------|
-     | ux.md     | 12    | 12        | 0          | ✓ PASS |
-     | test.md   | 8     | 5         | 3          | ✗ FAIL |
-     | security.md | 6   | 6         | 0          | ✓ PASS |
+     | Checklist   | Total | Completed | Incomplete | Status |
+     | ----------- | ----- | --------- | ---------- | ------ |
+     | ux.md       | 12    | 12        | 0          | ✓ PASS |
+     | test.md     | 8     | 5         | 3          | ✗ FAIL |
+     | security.md | 6     | 6         | 0          | ✓ PASS |
      ```
 
    - Calculate overall status:
@@ -45,7 +45,10 @@ You **MUST** consider the user input before proceeding (if not empty).
      - Display the table showing all checklists passed
      - Automatically proceed to step 3
 
-3. Load and analyze the implementation context:
+3. **Load Constitution and Implementation Context**:
+   - **REQUIRED**: Read `.specify/memory/constitution.md` to load all
+     governing principles. Pay special attention to Principle 6
+     (Commit Discipline) and all Quality Gates.
    - **REQUIRED**: Read tasks.md for the complete task list and execution plan
    - **REQUIRED**: Read plan.md for tech stack, architecture, and file structure
    - **IF EXISTS**: Read data-model.md for entities and relationships
@@ -105,7 +108,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 6. Execute implementation following the task plan:
    - **Phase-by-phase execution**: Complete each phase before moving to the next
-   - **Respect dependencies**: Run sequential tasks in order, parallel tasks [P] can run together  
+   - **Respect dependencies**: Run sequential tasks in order, parallel tasks [P] can run together
    - **Follow TDD approach**: Execute test tasks before their corresponding implementation tasks
    - **File-based coordination**: Tasks affecting the same files must run sequentially
    - **Validation checkpoints**: Verify each phase completion before proceeding
@@ -117,7 +120,25 @@ You **MUST** consider the user input before proceeding (if not empty).
    - **Integration work**: Database connections, middleware, logging, external services
    - **Polish and validation**: Unit tests, performance optimization, documentation
 
-8. Progress tracking and error handling:
+8. **Commit Discipline (Constitution Principle 6)**:
+   - **Atomic commits**: Each completed task or logical unit of work MUST be
+     committed immediately. Do NOT batch multiple tasks into a single commit.
+   - **Red-Green-Refactor cadence**: When following TDD:
+     1. **Red → Green commit**: Write the failing test, then the minimal code
+        to make it pass. Commit with message: `test: <what is now passing>`
+     2. **Refactor commit**: Improve structure with all tests still green.
+        Commit with message: `refactor: <what was improved>`
+   - **Pre-commit hooks**: Before every commit, run `pre-commit run --all-files`
+     (or the project's configured pre-commit command). All hooks MUST pass
+     before the commit is accepted. Fix any failures before proceeding.
+   - **Commit message quality**: Messages MUST document the *what* and *why*.
+     Use Conventional Commits format (`feat:`, `fix:`, `test:`, `refactor:`,
+     `docs:`, `chore:`).
+   - **Constitution reference**: Periodically re-read
+     `.specify/memory/constitution.md` during long implementation sessions
+     to ensure ongoing compliance with all principles.
+
+9. Progress tracking and error handling:
    - Report progress after each completed task
    - Halt execution if any non-parallel task fails
    - For parallel tasks [P], continue with successful tasks, report failed ones
@@ -125,11 +146,15 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Suggest next steps if implementation cannot proceed
    - **IMPORTANT** For completed tasks, make sure to mark the task off as [X] in the tasks file.
 
-9. Completion validation:
-   - Verify all required tasks are completed
-   - Check that implemented features match the original specification
-   - Validate that tests pass and coverage meets requirements
-   - Confirm the implementation follows the technical plan
-   - Report final status with summary of completed work
+10. Completion validation:
+    - Verify all required tasks are completed
+    - Check that implemented features match the original specification
+    - Validate that tests pass and coverage meets requirements
+    - Confirm the implementation follows the technical plan
+    - **Verify commit history**: Ensure the git log reflects atomic commits
+      with the Red-Green-Refactor pattern where TDD was applied
+    - **Final pre-commit run**: Execute `pre-commit run --all-files` one
+      last time to ensure no regressions
+    - Report final status with summary of completed work
 
 Note: This command assumes a complete task breakdown exists in tasks.md. If tasks are incomplete or missing, suggest running `/speckit.tasks` first to regenerate the task list.
