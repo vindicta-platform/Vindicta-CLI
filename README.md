@@ -7,11 +7,9 @@
 ![Version 0.2.0](https://img.shields.io/badge/version-0.2.0-orange)
 
 ## Overview
-
 Vindicta-CLI is a [Typer](https://typer.tiangolo.com/)-based CLI that provides developer workspace management for the 26-repo Vindicta Platform. It handles repository cloning, synchronisation, health checks, validation, and configuration — all with [Rich](https://rich.readthedocs.io/) terminal output and optional `--json` machine-readable output.
 
 ## Installation
-
 ```bash
 # From source (recommended during WIP)
 git clone https://github.com/vindicta-platform/Vindicta-CLI.git
@@ -26,7 +24,6 @@ uv pip install git+https://github.com/vindicta-platform/Vindicta-CLI.git
 ```
 
 ## Quick Start
-
 ```bash
 # Initialize a workspace with all platform repos
 vindicta dev init -w ~/vindicta-workspace
@@ -42,7 +39,6 @@ vindicta dev doctor
 ```
 
 ## Commands
-
 All commands live under the `vindicta dev` namespace.
 
 | Command                     | Description                                                                            |
@@ -62,7 +58,6 @@ All commands live under the `vindicta dev` namespace.
 > Every command supports `--json` for machine-readable output and `--verbose` / `-v` for detailed logging.
 
 ## Project Structure
-
 ```
 Vindicta-CLI/
 ├── src/vindicta_cli/
@@ -116,7 +111,6 @@ Vindicta-CLI/
 ```
 
 ## Development
-
 ```bash
 # Clone & install
 git clone https://github.com/vindicta-platform/Vindicta-CLI.git
@@ -143,7 +137,6 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full development workflow, SDD 
 See [docs/SETUP.md](./docs/SETUP.md) for detailed setup and shell completion instructions.
 
 ## Tech Stack
-
 | Component        | Choice        | Notes                             |
 | ---------------- | ------------- | --------------------------------- |
 | CLI framework    | Typer ≥0.12   | Declarative, type-hinted CLI      |
@@ -155,6 +148,15 @@ See [docs/SETUP.md](./docs/SETUP.md) for detailed setup and shell completion ins
 | Type checker     | mypy ≥1.10    | Static type analysis              |
 | Testing          | pytest ≥8.0   | Unit, integration, contract       |
 
-## License
+## Platform Documentation
 
+> **📌 Important:** All cross-cutting decisions, feature proposals, and platform-wide architecture documentation live in [**Platform-Docs**](https://github.com/vindicta-platform/Platform-Docs).
+>
+> Any decision affecting multiple repos **must** be recorded there before implementation.
+
+- 📋 [Feature Proposals](https://github.com/vindicta-platform/Platform-Docs/tree/main/docs/proposals)
+- 🏗️ [Architecture Decisions](https://github.com/vindicta-platform/Platform-Docs/tree/main/docs)
+- 📖 [Contributing Guide](https://github.com/vindicta-platform/Platform-Docs/blob/main/CONTRIBUTING.md)
+
+## License
 MIT License — See [LICENSE](./LICENSE) for details.
