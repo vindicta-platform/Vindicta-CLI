@@ -1,0 +1,19 @@
+{
+  "ref": "refs/heads/feat/pre-commit-rollout",
+  "before": "0000000000000000000000000000000000000000",
+  "after": "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+  "repository": {
+    "full_name": "vindicta-platform/Vindicta-CLI",
+    "default_branch": "main",
+    "owner": {
+      "login": "vindicta-platform"
+    }
+  },
+  "pusher": {
+    "name": "developer",
+    "email": "dev@vindicta.dev"
+  },
+  "sender": {
+    "login": "developer"
+  }
+}

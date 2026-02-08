@@ -10,3 +10,4 @@ build/
 .vindicta/
 *.log
 .ruff_cache/
+.secrets

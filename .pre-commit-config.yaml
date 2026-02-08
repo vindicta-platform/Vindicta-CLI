@@ -1,16 +1,13 @@
-# Vindicta-CLI Pre-Commit Configuration
-# - On commit: formatting, linting, file hygiene, WIP test detection
-# - On push:   full pytest suite (unit + integration + contract)
+# ============================================================================
+# Vindicta Platform — Python-Aggressive Pre-Commit Config (Phase 1: Lockdown)
+# ============================================================================
+# All hooks fire on EVERY commit. This is deliberately strict.
+# See ROLLOUT.md for the phased plan to loosen over time.
+#
+# Escape hatch: SKIP=hook-id git commit -m "..."
+# ============================================================================
 
 repos:
-  # ── Ruff: lint + format ──────────────────────────────────────────────
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.7
-    hooks:
-      - id: ruff
-        args: [--fix]
-      - id: ruff-format
-
   # ── File hygiene & safety ────────────────────────────────────────────
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
@@ -18,16 +15,65 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
-      - id: check-toml
+        args: [--unsafe]
       - id: check-json
+      - id: check-toml
       - id: check-merge-conflict
-      - id: debug-statements
+      - id: check-added-large-files
+        args: [--maxkb=500]
       - id: detect-private-key
+      - id: no-commit-to-branch
+        args: [--branch, main]
+      - id: debug-statements
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-symlinks
+      - id: check-executables-have-shebangs
+
+  # ── Python: Ruff lint + format ───────────────────────────────────────
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.7
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  # ── Secret scanning ─────────────────────────────────────────────────
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.22.1
+    hooks:
+      - id: gitleaks
+
+  # ── GitHub Actions linting ───────────────────────────────────────────
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.7
+    hooks:
+      - id: actionlint
+
+  # ── Shell script linting ─────────────────────────────────────────────
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+
+  # ── Markdown linting ─────────────────────────────────────────────────
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.17.1
+    hooks:
+      - id: markdownlint-cli2
+        args: [--fix]
+
+  # ── Conventional Commits (commit-msg stage) ──────────────────────────
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.4.1
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
 
   # ── Local hooks ──────────────────────────────────────────────────────
   - repo: local
     hooks:
-      # Commit-stage: catch WIP-marked tests before they land
+      # WIP Check (runs on commit)
       - id: pytest-wip
         name: "detect WIP tests"
         entry: uv run python scripts/check_wip_tests.py
