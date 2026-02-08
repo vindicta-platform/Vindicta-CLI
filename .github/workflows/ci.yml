@@ -46,6 +46,13 @@ jobs:
         with:
           python-version: '3.12'
 
+      - uses: astral-sh/setup-uv@v4
+        if: steps.check-config.outputs.has_config == 'true'
+
+      - name: Install pre-commit dependencies (for local hooks)
+        if: steps.check-config.outputs.has_config == 'true'
+        run: uv sync --dev
+
       - uses: pre-commit/action@v3.0.1
         if: steps.check-config.outputs.has_config == 'true'
         with:

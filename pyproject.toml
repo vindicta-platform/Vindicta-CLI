@@ -29,6 +29,7 @@ dev = [
     "mypy>=1.10",
     "pre-commit>=3.7",
     "pyadr>=0.19",
+    "commitizen>=4.4",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -47,3 +48,10 @@ asyncio_mode = "auto"
 markers = [
     "wip: marks tests as work-in-progress (deselected by default, caught by pre-commit)",
 ]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+version_scheme = "semver"
+version_provider = "pep621"
+update_map_description = true

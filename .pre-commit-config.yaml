@@ -73,6 +73,16 @@ repos:
   # ── Local hooks ──────────────────────────────────────────────────────
   - repo: local
     hooks:
+      # WIP Check (runs on commit)
+      - id: pytest-wip
+        name: "detect WIP tests"
+        entry: uv run python scripts/check_wip_tests.py
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+        always_run: true
+        verbose: true
+
       # Push-stage: full test suite must pass before push
       - id: pytest-full
         name: "run full test suite"
