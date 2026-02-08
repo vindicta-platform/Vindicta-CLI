@@ -1,0 +1,26 @@
+{
+    "action": "opened",
+    "number": 1,
+    "pull_request": {
+        "number": 1,
+        "title": "Test PR",
+        "head": {
+            "ref": "feat/pre-commit-rollout",
+            "sha": "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"
+        },
+        "base": {
+            "ref": "main",
+            "sha": "cafebabecafebabecafebabecafebabecafebabe"
+        }
+    },
+    "repository": {
+        "full_name": "vindicta-platform/Vindicta-CLI",
+        "default_branch": "main",
+        "owner": {
+            "login": "vindicta-platform"
+        }
+    },
+    "sender": {
+        "login": "developer"
+    }
+}

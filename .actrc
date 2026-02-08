@@ -1,0 +1,24 @@
+# ==========================================================================
+# Act configuration — local GitHub Actions runner
+# ==========================================================================
+# Usage:
+#   act push                        # run push-triggered workflows
+#   act push -e .github/act/push.json  # with custom event payload
+#   act push --dryrun               # parse-only, no execution
+#   act pull_request                # run PR-triggered workflows
+# ==========================================================================
+
+# Default platform image (smaller than full GitHub runner)
+-P ubuntu-latest=catthehacker/ubuntu:act-latest
+
+# Reuse local containers between runs for speed
+--reuse
+
+# Bind the working directory
+--bind
+
+# Use .env file for secrets (create .secrets for act if needed)
+--secret-file .secrets
+
+# Default event file
+--eventpath .github/act/push.json
